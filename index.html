@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RTU Result CGPA calculator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .banner {
+            width: 100%;
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .banner p {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .banner-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .banner-content img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .banner-username {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .banner-button {
+            background: white;
+            color: #4facfe;
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .banner-button:hover {
+            background: #4facfe;
+            color: white;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .upload-section {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .upload-box {
+            border: 3px dashed #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #fafafa;
+        }
+
+        .upload-box:hover {
+            border-color: #4facfe;
+            background: #f0f9ff;
+        }
+
+        .upload-box.dragover {
+            border-color: #4facfe;
+            background: #e0f2fe;
+        }
+
+        .upload-icon {
+            font-size: 2em;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+            word-break: break-word;
+        }
+
+        table th,
+        table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background: #333;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            display: none;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .upload-text {
+                font-size: 0.95em;
+            }
+
+            .upload-box {
+                padding: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 12px;
+            }
+
+            table {
+                font-size: 0.8em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.2em;
+            }
+
+            .header p {
+                font-size: 0.8em;
+            }
+
+            .upload-text,
+            .upload-icon {
+                font-size: 0.9em;
+            }
+
+            table th,
+            table td {
+                font-size: 0.75em;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner">
+        <p>Made in Bakchodi by</p>
+        <div class="banner-content">
+            <img src="https://i.imgur.com/n5e73pn.jpeg" alt="Instagram Logo">
+            <span class="banner-username">@git_students</span>
+            <button class="banner-button"
+                onclick="window.open('https://www.instagram.com/git_students', '_blank')">Follow</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Student Result Processor</h1>
+            <p>Upload a PDF result file to extract and analyze student performance</p>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-box" id="uploadBox">
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">Drop your PDF result file here or click to browse</div>
+                <button class="btn"
+                    onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Choose File</button>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf">
+            </div>
+        </div>
+        <!-- <h2>Upload RTU Result PDF</h2>
+        <input type="file" id="pdfUpload" accept=".pdf"> -->
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Processing PDF file...</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <table id="summary" class="hidden">
+            <tr>
+                <th>Roll No</th>
+                <td id="rollNo"></td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td id="name"></td>
+            </tr>
+            <tr>
+                <th>Total Marks (1200)</th>
+                <td id="totalMarks"></td>
+            </tr>
+            <tr>
+                <th>Percentage</th>
+                <td id="percentage"></td>
+            </tr>
+            <tr>
+                <th>CGPA</th>
+                <td id="cgpa"></td>
+            </tr>
+            <tr>
+                <th>Remarks</th>
+                <td id="remarks"></td>
+            </tr>
+        </table>
+
+        <h3 id="subjectHeading" class="hidden">Subject-wise Marks</h3>
+        <table id="subjectsTable" class="hidden">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Course Code</th>
+                    <th>Midterm Marks</th>
+                    <th>Endterm Marks</th>
+                    <th>Total</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        const pdfInput = document.getElementById("pdfUpload");
+
+        const rollNo = document.getElementById("rollNo");
+        const name = document.getElementById("name");
+        const totalMarks = document.getElementById("totalMarks");
+        const percentage = document.getElementById("percentage");
+        const cgpa = document.getElementById("cgpa");
+        const remarks = document.getElementById("remarks");
+
+        const summaryTable = document.getElementById("summary");
+        const subjectsTable = document.getElementById("subjectsTable");
+        const subjectHeading = document.getElementById("subjectHeading");
+        const subjectsBody = subjectsTable.querySelector("tbody");
+
+        const uploadBox = document.getElementById('uploadBox');
+        const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+
+        uploadBox.addEventListener('click', () => fileInput.click());
+        uploadBox.addEventListener('dragover', handleDragOver);
+        uploadBox.addEventListener('drop', handleDrop);
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadBox.classList.add('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadBox.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                processPDF(files[0]);
+            }
+        }
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                processPDF(file);
+            }
+        }
+
+        async function processPDF(file) {
+            try {
+                showLoading(true);
+                hideError();
+
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = async function () {
+                    const typedarray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
+                    let text = "";
+
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const content = await page.getTextContent();
+                        text += content.items.map(item => item.str).join(" ") + "\n";
+                    }
+
+                    parseAndDisplay(text);
+                };
+                reader.readAsArrayBuffer(file);
+            } catch (error) {
+                console.error('Error processing PDF:', error);
+                showError('Error processing PDF file. Please ensure it\'s a valid result PDF.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        // pdfInput.addEventListener("change", async function () {
+        //     const file = pdfInput.files[0];
+        //     if (!file) return;
+
+        //     const reader = new FileReader();
+        //     reader.onload = async function () {
+        //         const typedarray = new Uint8Array(this.result);
+        //         const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
+        //         let text = "";
+
+        //         for (let i = 1; i <= pdf.numPages; i++) {
+        //             const page = await pdf.getPage(i);
+        //             const content = await page.getTextContent();
+        //             text += content.items.map(item => item.str).join(" ") + "\n";
+        //         }
+
+        //         parseAndDisplay(text);
+        //     };
+        //     reader.readAsArrayBuffer(file);
+        // });
+
+        function parseAndDisplay(text) {
+            const rollMatch = text.match(/Roll No\s*:\s*(\S+)/);
+            const nameMatch = text.match(/Name\s*:\s*([\w\s]+)\s*Father's Name/);
+            const remarksMatch = text.match(/REMARKS\s*:\s*(PASS|FAIL)/i);
+
+            rollNo.textContent = rollMatch ? rollMatch[1] : "N/A";
+            name.textContent = nameMatch ? nameMatch[1].trim() : "N/A";
+            remarks.textContent = remarksMatch ? remarksMatch[1].toUpperCase() : "N/A";
+
+            let total = 0;
+            subjectsBody.innerHTML = "";
+
+            // Match all subject entries like: Subject Name CourseCode num num Grade
+            const subjectRegex = /([A-Za-z &]+?)\s+(3CS\d{1}-\d{2})\s+(\d{1,3})\s+(\d{1,3})\s+([A-Z+]+)/g;
+            let match;
+            while ((match = subjectRegex.exec(text)) !== null) {
+                const subject = match[1].trim();
+                const code = match[2];
+                const mid = parseInt(match[3]);
+                const end = parseInt(match[4]);
+                const grade = match[5].trim();
+                const sum = mid + end;
+                total += sum;
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>${subject}</td>
+          <td>${code}</td>
+          <td>${mid}</td>
+          <td>${end}</td>
+          <td>${sum}</td>
+          <td>${grade}</td>
+        `;
+                subjectsBody.appendChild(tr);
+            }
+
+            // Handle Logical Reasoning
+            const logicMatch = text.match(/Logical Reasoning\s+(FEC15)?\s*(\d{1,3})\s+([A-Z+]+)/);
+            if (logicMatch) {
+                const mark = parseInt(logicMatch[2]);
+                const grade = logicMatch[3];
+                total += mark;
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+          <td>Logical Reasoning</td>
+          <td>FEC15</td>
+          <td>-</td>
+          <td>${mark}</td>
+          <td>${mark}</td>
+          <td>${grade}</td>
+        `;
+                subjectsBody.appendChild(tr);
+            }
+
+            const perc = ((total / 1200) * 100).toFixed(2);
+            const cgpaVal = (perc / 10 + 0.75).toFixed(2);
+
+            totalMarks.textContent = total;
+            percentage.textContent = perc + " %";
+            cgpa.textContent = cgpaVal;
+
+            summaryTable.classList.remove("hidden");
+            subjectsTable.classList.remove("hidden");
+            subjectHeading.classList.remove("hidden");
+        }
+
+        function showLoading(show) {
+            loading.style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        function hideError() {
+            errorMessage.style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
