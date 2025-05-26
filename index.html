@@ -20,6 +20,61 @@
             padding: 20px;
         }
 
+        .main-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .ad-slot {
+            width: 160px;
+            height: 600px;
+            flex-shrink: 0;
+        }
+
+        .left-ad,
+        .right-ad {
+            position: sticky;
+            top: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .ad-slot {
+                display: none;
+            }
+        }
+
+        .top-wrapper {
+            justify-content: center;
+            align-items: center;
+        }
+
+        .leaderboard-ad {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto 20px;
+        }
+
+        .desktop-ad {
+            display: block;
+        }
+
+        .mobile-ad {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .desktop-ad {
+                display: none;
+            }
+
+            .mobile-ad {
+                display: block;
+            }
+        }
+
         .banner {
             width: 100%;
             text-align: center;
@@ -260,84 +315,143 @@
 </head>
 
 <body>
-    <div class="banner">
-        <p>Made in Bakchodi by</p>
-        <div class="banner-content">
-            <img src="https://i.imgur.com/n5e73pn.jpeg" alt="IIT sitapura Logo">
-            <span class="banner-username">@git_students</span>
-            <button class="banner-button"
-                onclick="window.open('https://www.instagram.com/git_students', '_blank')">Follow</button>
-        </div>
-    </div>
-    <div class="container">
-        <div class="header">
-            <h1>Student Result Processor</h1>
-            <p>Upload a PDF result file to extract and analyze student performance</p>
-            <p style="color: black;">UPDATE: - Support All Banches <br>
-                - Support All Years <br>
-                - Support The Results with Backs</p>
-        </div>
-
-        <div class="upload-section">
-            <div class="upload-box" id="uploadBox">
-                <div class="upload-icon">📄</div>
-                <div class="upload-text">Drop your PDF result file here or click to browse</div>
-                <button class="btn"
-                    onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Choose File</button>
-                <input type="file" id="fileInput" class="file-input" accept=".pdf">
+    <div class="topwrapper">
+        <div class="banner">
+            <p>Made in Bakchodi by</p>
+            <div class="banner-content">
+                <img src="https://i.imgur.com/n5e73pn.jpeg" alt="IIT sitapura Logo">
+                <span class="banner-username">@git_students</span>
+                <button class="banner-button"
+                    onclick="window.open('https://www.instagram.com/git_students', '_blank')">Follow</button>
             </div>
         </div>
-        <!-- <h2>Upload RTU Result PDF</h2>
-        <input type="file" id="pdfUpload" accept=".pdf"> -->
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Processing PDF file...</p>
+        <div class="leaderboard-ad desktop-ad">
+            <script type="text/javascript">
+                atOptions = {
+                    'key': '9947d5ca69472b221c30a25a72dde177',
+                    'format': 'iframe',
+                    'height': 90,
+                    'width': 728,
+                    'params': {}
+                };
+            </script>
+            <script type="text/javascript"
+                src="//www.highperformanceformat.com/9947d5ca69472b221c30a25a72dde177/invoke.js"></script>
         </div>
 
-        <div class="error-message" id="errorMessage"></div>
+        <div class="leaderboard-ad mobile-ad">
+            <script type="text/javascript">
+                atOptions = {
+                    'key': '5b2b9c0a5804860d065f07d7ec35db71',
+                    'format': 'iframe',
+                    'height': 50,
+                    'width': 320,
+                    'params': {}
+                };
+            </script>
+            <script type="text/javascript"
+                src="//www.highperformanceformat.com/5b2b9c0a5804860d065f07d7ec35db71/invoke.js"></script>
+        </div>
+    </div>
 
-        <table id="summary" class="hidden">
-            <tr>
-                <th>Roll No</th>
-                <td id="rollNo"></td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td id="name"></td>
-            </tr>
-            <tr>
-                <th>Total Marks (1200)</th>
-                <td id="totalMarks"></td>
-            </tr>
-            <tr>
-                <th>Percentage</th>
-                <td id="percentage"></td>
-            </tr>
-            <tr>
-                <th>CGPA</th>
-                <td id="cgpa"></td>
-            </tr>
-            <tr>
-                <th>Remarks</th>
-                <td id="remarks"></td>
-            </tr>
-        </table>
+    <div class="main-wrapper">
+        <div class="ad-slot left-ad">
+            <script type="text/javascript">
+                atOptions = {
+                    'key': '70db05d8db69ebb2b7a284c799c8cdfb',
+                    'format': 'iframe',
+                    'height': 600,
+                    'width': 160,
+                    'params': {}
+                };
+            </script>
+            <script type="text/javascript"
+                src="//www.highperformanceformat.com/70db05d8db69ebb2b7a284c799c8cdfb/invoke.js"></script>
+        </div>
+        <div class="container">
+            <div class="header">
+                <h1>Student Result Processor</h1>
+                <p>Upload a PDF result file to extract and analyze student performance</p>
+                <p style="color: black;">UPDATE: - Support All Banches <br>
+                    - Support All Years <br>
+                    - Support The Results with Backs</p>
+            </div>
 
-        <h3 id="subjectHeading" class="hidden">Subject-wise Marks</h3>
-        <table id="subjectsTable" class="hidden">
-            <thead>
+            <div class="upload-section">
+                <div class="upload-box" id="uploadBox">
+                    <div class="upload-icon">📄</div>
+                    <div class="upload-text">Drop your PDF result file here or click to browse</div>
+                    <button class="btn"
+                        onclick="event.stopPropagation(); document.getElementById('fileInput').click()">Choose
+                        File</button>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf">
+                </div>
+            </div>
+            <!-- <h2>Upload RTU Result PDF</h2>
+        <input type="file" id="pdfUpload" accept=".pdf"> -->
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing PDF file...</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <table id="summary" class="hidden">
                 <tr>
-                    <th>Subject</th>
-                    <th>Course Code</th>
-                    <th>Midterm Marks</th>
-                    <th>Endterm Marks</th>
-                    <th>Total</th>
-                    <th>Grade</th>
+                    <th>Roll No</th>
+                    <td id="rollNo"></td>
                 </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+                <tr>
+                    <th>Name</th>
+                    <td id="name"></td>
+                </tr>
+                <tr>
+                    <th>Total Marks (1200)</th>
+                    <td id="totalMarks"></td>
+                </tr>
+                <tr>
+                    <th>Percentage</th>
+                    <td id="percentage"></td>
+                </tr>
+                <tr>
+                    <th>CGPA</th>
+                    <td id="cgpa"></td>
+                </tr>
+                <tr>
+                    <th>Remarks</th>
+                    <td id="remarks"></td>
+                </tr>
+            </table>
+
+            <h3 id="subjectHeading" class="hidden">Subject-wise Marks</h3>
+            <table id="subjectsTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Course Code</th>
+                        <th>Midterm Marks</th>
+                        <th>Endterm Marks</th>
+                        <th>Total</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="ad-slot right-ad">
+            <script type="text/javascript">
+                atOptions = {
+                    'key': '70db05d8db69ebb2b7a284c799c8cdfb',
+                    'format': 'iframe',
+                    'height': 600,
+                    'width': 160,
+                    'params': {}
+                };
+            </script>
+            <script type="text/javascript"
+                src="//www.highperformanceformat.com/70db05d8db69ebb2b7a284c799c8cdfb/invoke.js"></script>
+        </div>
     </div>
 
     <script>
@@ -522,6 +636,8 @@
             errorMessage.style.display = 'none';
         }
     </script>
+    <script type='text/javascript'
+        src='//pl26750755.profitableratecpm.com/91/7b/06/917b06fd54882c6865ca8640527004bf.js'></script>
 </body>
 
 </html>
