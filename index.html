@@ -516,7 +516,6 @@
                             const content = await page.getTextContent();
                             text += content.items.map(item => item.str).join(" ") + "\n";
                         }
-                        console.log(text);
 
                         parseAndDisplay(text);
                     };
@@ -555,6 +554,7 @@
             const rollMatch = text.match(/Roll No\s*:\s*(\S+)/);
             const nameMatch = text.match(/Name\s*:\s*([\w\s]+)\s*Father's Name/);
             const remarksMatch = text.match(/REMARKS\s*:\s*(PASS|FAIL)/i);
+            let noofsubjects = 0;
 
             rollNo.textContent = rollMatch ? rollMatch[1] : "N/A";
             name.textContent = nameMatch ? nameMatch[1].trim() : "N/A";
@@ -578,6 +578,7 @@
                 const grade = match[5].trim();
                 const sum = mid === '-' ? end : mid + end;
                 total += sum;
+                noofsubjects++;
 
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
@@ -610,8 +611,8 @@
             // `;
             //         subjectsBody.appendChild(tr);
             //     }
-
-            const perc = ((total / 1200) * 100).toFixed(2);
+            console.log(noofsubjects);
+            const perc = ((total / (noofsubjects * 100)) * 100).toFixed(2);
             const cgpaVal = ((perc / 10) + 0.75).toFixed(2) > 10 ? 10 : ((perc / 10) + 0.75).toFixed(2);
 
             totalMarks.textContent = total;
